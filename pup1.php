@@ -34,10 +34,10 @@ class Pup {
 
 			
 			$distance=0;
-			$racer_time=0;
+			$time=0;
 			$state="Running";
 
-			while ($racer_time <=3461) {
+			while ($time <=3461) {
 
 			
 				switch($state){
@@ -47,16 +47,15 @@ class Pup {
 						// if ($racer_time + $this->run_time <=3461) {
 						// echo "Let's Run!<br>";
 						$distance += ($this->run_time * $this->speed);
-						$racer_time = $racer_time + $this->run_time;
+						$time += $this->run_time;
 						// echo "Race Time: " . "$racer_time <br>";
 						echo "$this->name Traveled: " . "$distance <br><br>";
 						$state= "Resting";
 						break;
 
 					case "Resting":
-
 						
-						$racer_time= $racer_time + $this->rest_time;
+						$time += $this->rest_time;
 						// echo "Time to Rest! <br>";
 						// echo "Race Time: " . "$racer_time<br>";
 						// echo "Let's get up and moving lazy puppy!<br><br>";
