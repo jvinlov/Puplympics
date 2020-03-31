@@ -19,7 +19,7 @@ class Pup {
 
 	//constructor
 
-	public function __construct($name, $speed, $run_time, $rest_time, $racer_time, $distance, $points) {
+	public function __construct($name, $speed, $run_time, $rest_time, $racer_time, $distance, $points, $state) {
 
 		$this->name=$name;
 		$this->speed=$speed;
@@ -28,191 +28,132 @@ class Pup {
 		$this->racer_time=$racer_time;
 		$this->distance=$distance;
 		$this->points=$points;
+		$this->state=$state;
+		
 	}
-}
 
-$alfie = new Pup ("Alfie", 5, 17, 57, 0, 0, 0);
-$lincoln = new Pup ("Lincoln", 28, 6, 133, 0, 0, 0);
-$tuck = new Pup ("Tuck", 23, 4, 83, 0, 0, 0);
-$sullivan = new Pup ("Sullivan", 19, 7, 108, 0, 0, 0);
-$stitch = new Pup ("Stitch", 4,22, 62, 0, 0, 0);
-$zema = new Pup ("Zema", 16, 6, 86, 0, 0, 0);
-$mara = new Pup ("Mara", 27, 6, 135, 0, 0, 0);
-$butter = new Pup ("Butter", 12, 6, 53, 0, 0, 0);
-$ember = new Pup ("Ember", 15, 4, 50, 0, 0, 0);
+	public function race() {
 
-$contestants = array($alfie, $lincoln, $tuck, $sullivan, $stitch, $zema, $mara, $butter, $ember);
-// multidimensional array
-
-$pups = array(
-
-	'Alfie' => array(
 		
-		'speed' => 5,
-		'run_time' => 17,
-		'rest_time' => 57,
-		'racer_time' =>0,
-		'distance' =>0,
-		'points' =>0,
-	),
-
-	'Lincoln' => array(
+		$one_second = array();
 		
-		'speed' => 28,
-		'run_time' => 6,
-		'rest_time' => 133,
-		'racer_time' =>0,
-		'distance' =>0,
-		'points' =>0,
-	),
+		// looping through 3 seconds. 
 
-	'Tuck' => array(
-		
-		'speed' => 23,
-		'run_time' => 4,
-		'rest_time' => 83,
-		'racer_time' =>0,
-		'distance' =>0,
-		'points' =>0,
-	),
+		for ($time=1; $time<=3461; $time++) {
 
-	'Sullivan' => array(
-		
-		'speed' => 19,
-		'run_time' => 7,
-		'rest_time' => 108,
-		'racer_time' =>0,
-		'distance' =>0,
-		'points' =>0,
-	),
+			//  each second run the following: 
 
-	'Stitch' => array(
-		
-		'speed' => 4,
-		'run_time' => 22,
-		'rest_time' => 62,
-		'racer_time' =>0,
-		'distance' =>0,
-		'points' =>0,
-	),
+			// foreach loop through all contestants (troubled)
+				foreach($contestants as $value) {
 
-	'Zema' => array(
-		
-		'speed' => 16,
-		'run_time' => 6,
-		'rest_time' => 86,
-		'racer_time' =>0,
-		'distance' =>0,
-		'points' =>0,
-	),
+					// check state running or resting
 
-	'Mara' => array(
-		
-		'speed' => 27,
-		'run_time' => 6,
-		'rest_time' => 135,
-		'racer_time' =>0,
-		'distance' =>0,
-		'points' =>0,
-	),
+					if ($this->state = "Running") {
 
-	'Butter' => array(
-		
-		'speed' => 12,
-		'run_time' => 6,
-		'rest_time' => 53,
-		'racer_time' =>0,
-		'distance' =>0,
-		'points' =>0,
-	),
+						$this->distance += ($this->speed);
 
-	'Ember' => array(
-		
-		'speed' => 15,
-		'run_time' => 4,
-		'rest_time' => 50,
-		'racer_time' =>0,
-		'distance' =>0,
-		'points' =>0,
-	)
-);
+						$this->racer_time ++;
 
+					// push each distance into array
 
-$time = 0;
-$state = "Running";
-$one_second = array();
+						array_push($one_second, $this->distance);
 
-// running race
+					// trying to reduce run time, but I realize this will reset to run_time each second
+						$run_interval = $this->run_time;
+						$run_interval --;
 
-// function race() {
+							if ($run_interval = 0) {
+								$this->state = "Resting";
+								}
 
-// 		// looping through 3461 seconds
+						} else {
 
-// 		for (i=0, i<=3461, i++) {
+							// Resting state
 
-// 			if ($state = "Running") {
+							$this->racer_time ++;
+							// create rest interval equal to rest time, then reduce by one each second
+							$rest_interval = $this->rest_time;
+							$rest_interval --;
 
-// 						// if ($racer_time + $this->run_time <=3461) {
-					
-// 						$distance += (speed);
-// 						$racer_time ++;
-// 						array_push($one_second, $distance);
-						
-						
-						
-// 						if ($racer_time > $run_time){
-// 						$state= "Resting";
-// 						}
+							// push each distance into array, even while resting
 
-// 					} else {
+								array_push($one_second, $this->distance);
 
-// 					$racer_time ++;
+							// check to see if still resting, change state at end of rest
+								if($rest_interval = 0){
+									$this->state = "Running";
+									$rest_interval = $this->rest_time;
+								}
+						}
+				}
 
-// 					if ($resting_time < $racer_time){
-// 						$state = "Running";
-// 					}
+									
 					
 
-						
-// 						$racer_time= $racer_time + $this->rest_time;
-// 						// echo "Time to Rest! <br>";
-// 						// echo "Race Time: " . "$racer_time<br>";
-// 						// echo "Let's get up and moving lazy puppy!<br><br>";
-						
-// 							$state= "Running";
-						
-// 						break;
-// 				}
-// 				// checking farthest distance including ties
-// 				$max = max($one_second);
+						// still in time for loop, checking farthest distance including ties
 
-// 				foreach($one_second as $key => $val) {
-// 					if($val === $max) $award[] = $key;
+					$max = max($one_second);
+
+					foreach($one_second as $key => $val) {
+						if($val === $max) $award[] = $val;
 					
-// 				}
-// 				}
-// 			}
-		
-		
+						
+					}
+					echo "\n Leader is " .  $max ."<br>";
 
-	foreach ($contestants as $key => $value) {
-	// echo $key ."\n<br>";
-	// echo $key['Alfie']. "Distance =  " . ["distance"];
+					// add one point to leader(s)
 
-	foreach ($value as $sub_key =>$sub_val) {
-		echo $sub_key . " = " . $sub_val . " <br>";
-		// echo $pup['distance']. " " . $pup["points"]. "\n" ;
-		
+					$award[points] ++
+
+					// reset $one_second array before next second
+
+					unset($one_second);
+							
+							
 		}
 
-	
-		echo "<br>";
 	}
+							
+}
+
+$alfie = new Pup ("Alfie", 5, 17, 57, 0, 0, 0, Running);
+$lincoln = new Pup ("Lincoln", 28, 6, 133, 0, 0, 0, Running);
+$tuck = new Pup ("Tuck", 23, 4, 83, 0, 0, 0, Running);
+$sullivan = new Pup ("Sullivan", 19, 7, 108, 0, 0, 0, Running);
+$stitch = new Pup ("Stitch", 4,22, 62, 0, 0, 0, Running);
+$zema = new Pup ("Zema", 16, 6, 86, 0, 0, 0, Running);
+$mara = new Pup ("Mara", 27, 6, 135, 0, 0, 0, Running);
+$butter = new Pup ("Butter", 12, 6, 53, 0, 0, 0, Running);
+$ember = new Pup ("Ember", 15, 4, 50, 0, 0, 0, Running);
 
 
-// array_map("race", $pups);
+$alfieArray = json_decode(json_encode($alfie), true);
+$lincolnArray = json_decode(json_encode($lincoln), true);
+$tuckArray = json_decode(json_encode($tuck), true);
+$sullivanArray = json_decode(json_encode($sullivan), true);
+$stitchArray = json_decode(json_encode($stitch), true);
+$zemaArray = json_decode(json_encode($zema), true);
+$maraArray = json_decode(json_encode($mara), true);
+$butterArray = json_decode(json_encode($butter), true);
+$emberArray = json_decode(json_encode($ember), true);
 
-// race($pups);
+$contestants = array($alfieArray, $lincolnArray, $tuckArray, $sullivanArray, $stitchArray, $zemaArray, $maraArray, $butterArray, $emberArray);
+
+
+array_map("race", $contestants);
+
+
+// below is development testing
+	// echo $contestants[2]["speed"];
+// 		echo "<br>";
+// 	$keys = array_keys($contestants); 
+// for($i = 0; $i < count($contestants); $i++) { 
+//     // echo $keys[$i] . "\n"; 
+//     foreach($contestants[$keys[$i]] as $key => $value) { 
+//         echo $key . " : " . $value . "\n<br>"; 
+//     } 
+//     echo "\n"; 
+// } 
 ?>
 </body>
 </html>

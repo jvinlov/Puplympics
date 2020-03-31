@@ -29,7 +29,7 @@ class Pup {
 
 	public function race() {
 
-			
+			echo"\n";
 			echo $this->name . " runs " . $this->speed . " feet per second" . " for " . $this->run_time ." seconds"." but then rests for ". $this->rest_time . " seconds" . "<br><br>";
 
 			
@@ -45,19 +45,19 @@ class Pup {
 					case "Running":
 
 						// if ($racer_time + $this->run_time <=3461) {
-						// echo "Let's Run!<br>";
+						echo "Let's Run!<br>";
 						$distance += ($this->run_time * $this->speed);
 						$time += $this->run_time;
 						// echo "Race Time: " . "$racer_time <br>";
-						echo "$this->name Traveled: " . "$distance <br><br>";
+						echo "$this->name Traveled: " . "$distance feet. <br><br>";
 						$state= "Resting";
 						break;
 
 					case "Resting":
 						
 						$time += $this->rest_time;
-						// echo "Time to Rest! <br>";
-						// echo "Race Time: " . "$racer_time<br>";
+						echo "Time to Rest! <br>";
+						echo "Race Time: " . "$time<br>";
 						// echo "Let's get up and moving lazy puppy!<br><br>";
 						
 							$state= "Running";
